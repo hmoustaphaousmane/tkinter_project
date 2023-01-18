@@ -1,10 +1,10 @@
 from tkinter import *
 # from tkinter import ttk
-from sqlite3 import *
+import pickle
+import os
 
-# Connecting to my_app_db data base
-connection = connect ("my_app_db")
-        
+fichier_score = "scores" 
+     
 class Add (Toplevel) :
     def __init__ (self, parent) :
         super ().__init__ (parent)
@@ -19,7 +19,7 @@ class Add (Toplevel) :
         
         self.create_person ()
         
-    def create_person (self) :
+    def create_person (self) : 
         padding = {"padx" : 5, "pady" : 5}
         text = Label (self, text = "Add a Person", font = "arial" ).grid (column = 1, row = 0, **padding)
 
@@ -52,28 +52,22 @@ class Add (Toplevel) :
         # Cancel button
         cancel_button = Button (self, text = "Cancel", command = lambda : [self.destroy ()])
         cancel_button.grid (column = 1, row = 4, **padding)
-
+        
+        
     # Methode add_person pour ajouter une personne a la db
-    def add_person (self) :
-        global connection
-        self.cursor = connection.cursor ()
-        self.cursor.execute ("""CREATE TABLE IF NOT EXISTS person (
-            id INTEGER PRIMARY KEY AUTOINCREMENT UNIQUE,
-            first_name TEXT,
-            last_name TEXT,
-            age INTEGER
-        );""")
-        connection.commit ()
-        self.cursor.execute ("""INSERT INTO person (first_name, last_name, age) VALUES (?, ?, ?);""",
-                       (self.first_name_var.get (), self.last_name_var.get (), self.age_var.get ())
-                      )
-        connection.commit ()
 
-        self.first_name_var.set("")
-        self.last_name_var.set("")
-        self.age_var.set("")
+    def add_person (self) :
+        if os.path.exists("fichier_score"):
+            with open("fichier_score", "rb") as file:
+                mon_depickler = pickle.Unpickler(file)
+                scores = mon_depickler.load()
+        else:
+            scores = {}
+        return scores
+
 
 class Introduce (Toplevel) :
+    scores = add_person()
     def __init__ (self, parent) :
         super ().__init__ (parent)
         self["bg"] = "sky blue"
@@ -93,22 +87,16 @@ class Introduce (Toplevel) :
 #         id_ok_button.grid (column = 0, row = 1)
        
     def introduce_id (self) :
-        global connection
-        self.cursor = connection.cursor ()
-        
-#         self.f_name = self.cursor.execute ("""SELECT first_name FROM person WHERE id = ?;""", self.id_var.get ())
-#         self.l_name = self.cursor.execute ("""SELECT last_name FROM person WHERE id = ?;""", self.id_var.get ())
-#         self.age = self.cursor.execute ("""SELECT age FROM person WHERE id = ?;""", self.id_var.get ())
-        
         self.introduce_label = Label (self).pack (expand = True)
 #         self.introduce_label.grid (column = 0, row = 1, columnspan = 3)
 #         self.introduce_label.config (text = f"Mon prenom est {self.f_name}.\n\
 #         Mon nom de famille est {self.l_name}.\nJe suis age de {self.age} ans.")
 
-        the_person = self.cursor.execute ("""SELECT * FROM person WHERE id = ?;""",
-                             self.id_var.get ()
-        )
-        self.introduce_label.config (text = f"""Mon prenom est {the_person [1]}.
+        def enregistrer_score(scores):
+            with open("fichier_score", 'wb') as file:
+                mon_pickler = pickle.Pickler(file)
+                mon_pickler.dump(scores)
+        self.introduce_label.config (text = f"""Mon prenom est {scores[id_label]}.
                                     Mon nom de famille est {self.the_person [2]}.
                                     Je suis age de {self.the_person [3]} ans.""")
 
@@ -117,7 +105,7 @@ class List (Toplevel) :
         super ().__init__ (parent)
         self.title ("List of Persons")
         self.geometry ("500x125")
-#         self["bg"] = "sky blue"
+#         self["bg"] = "cyan"
         
         self.list_persons ()
         
@@ -196,7 +184,7 @@ class App(Tk):
 
         self.geometry('450x225')
         self.title('Main Window')
-        self["bg"] = "light yellow"
+        self["bg"] = "light green"
       
         self.menu_bar ()
         exit_button = Button (self, text = "Exit", command = self.exit_page).pack (expand = True)
