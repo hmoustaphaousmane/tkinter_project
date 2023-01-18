@@ -191,9 +191,9 @@ class App(Tk):
     def __init__(self):
         super().__init__()
 
-        self.geometry('450x225')
+        self.geometry('1000x225')
         self.title('Main Window')
-        self["bg"] = "cyan"
+        self["bg"] = "black"
       
         self.menu_bar ()
         exit_button = Button (self, text = "Exit", command = self.exit_page).pack (expand = True)
