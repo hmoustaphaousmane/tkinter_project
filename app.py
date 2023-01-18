@@ -9,9 +9,10 @@ class Add (Toplevel) :
     def __init__ (self, parent) :
         super ().__init__ (parent)
         
-        self.geometry ("500x150")
+        self.geometry ("500x200")
         self.title ("Add a Person")
-        self ["bg"] = "cyan"
+        self.resizable(height=False, width=False)
+        self ["bg"] = "yellow"
         
         self.first_name_var = StringVar ()
         self.last_name_var = StringVar ()
@@ -80,13 +81,16 @@ class Introduce (Toplevel) :
         self.open_introduce ()
         
     def open_introduce (self) :
-        id_label = Label (self, text = "ID :").pack (expand = True)
+        id_label = Label (self, text = "ID :")
+        id_label.place(x='10',y='30')
 #         id_label.grid (column = 0, row = 0)
         
-        id_entry = Entry (self, textvariable = self.id_var).pack (expand = True)
+        id_entry = Entry (self, textvariable = self.id_var)
+        id_entry.place(x='40',y='30')
 #         id_entry.grid (column = 1, row = 0)
         
-        id_ok_button = Button (self, text = "OK", command = self.introduce_id ).pack (expand = True)
+        id_ok_button = Button (self, text = "OK", command = self.introduce_id )
+        id_ok_button.place(x='50',y='60')
 #         id_ok_button.grid (column = 0, row = 1)
        
     def introduce_id (self) :
@@ -113,8 +117,9 @@ class List (Toplevel) :
     def __init__ (self, parent) :
         super ().__init__ (parent)
         self.title ("List of Persons")
-        self.geometry ("500x125")
-#         self["bg"] = "cyan"
+        self.geometry ("500x200")
+        self.resizable (height=False, width=False)
+        self["bg"] = "cyan"
         
         self.list_persons ()
         
@@ -141,7 +146,8 @@ class Age (Toplevel) :
     def __init__ (self, parent) :
         super ().__init__ (parent)
         self.title ("Age Groupe")
-        self.geometry ("200x75")
+        self.resizable(height=False, width=False) 
+        self.geometry ("300x150")
         self["bg"] = "cyan"
 #         self.age_var = IntVar ()
         self.id_var = IntVar ()
@@ -149,9 +155,10 @@ class Age (Toplevel) :
         
 #         age_group = Entry (self, textvariable = self.age_var).pack (expand = True)
 #         age = self.age_var.get ()
-        id_person = Entry (self, textvariable = self.id_var).pack (expand = True)
+        label_age=Label(self, text="Age:").place(x='10',y='30')
+        id_person = Entry (self, textvariable = self.id_var).place(x='40', y='30')
 #         the_id = self.id_var.get ()
-        Button (self, text = "OK", command = lambda : [self.age_group]).pack (expand = True)
+        Button (self, text = "OK", command = lambda : [self.age_group]).palce(x='40', y='40')
         
         self.age_group_label = Label (self)
 #         self.age_group_label.pack (expand = True)
@@ -192,6 +199,7 @@ class App(Tk):
         super().__init__()
 
         self.geometry('450x225')
+        self.resizable(height=False,width=False)
         self.title('Main Window')
         self["bg"] = "cyan"
       
@@ -259,3 +267,4 @@ class App(Tk):
 if __name__ == "__main__":
     app = App()
     app.mainloop()
+Footer
