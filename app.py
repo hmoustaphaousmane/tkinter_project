@@ -217,21 +217,24 @@ class App(Tk):
         self.config (menu = menu_bar)
         
         # Create a menu file name file_menu in the menu_bar
-        file_menu = Menu (menu_bar)
+        file_menu = Menu (menu_bar, tearoff=0)
         
         # Add commands to file_menu
         file_menu.add_command (
             label = "Add",
             command = self.open_add_window
         )
+        file_menu.add_separator()
         file_menu.add_command (
             label = "List All",
             command = self.open_list
         )
+        file_menu.add_separator()
         file_menu.add_command (
             label = "Introduce",
             command = self.open_introduce
         )
+        file_menu.add_separator()
         file_menu.add_command (
             label = "Age Group",
             command = self.open_age_group
