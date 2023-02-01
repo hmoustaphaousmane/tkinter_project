@@ -18,8 +18,9 @@ Pour excuter l'application, il suffit tout simplement de faire  **python3 app.py
 
 > ## Contributeurs
 >
-> - Hassane Ousmane
 > - Hamidé Mahamat
-> - Nil Mahamat
+> - Hassane Moustapha Ousmane
 > - Honoré Payang
 > - Mba Le Iran Ezechiel
+> - Nil Hassane Mahamat
+
